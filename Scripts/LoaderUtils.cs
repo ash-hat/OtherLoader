@@ -78,12 +78,7 @@ namespace OtherLoader
             // Load a PNG or JPG file from disk to a Texture2D
             // Returns null if load fails
 
-            Stream fileStream = File.OpenRead(path);
-            MemoryStream mem = new MemoryStream();
-
-            CopyStream(fileStream, mem);
-
-            byte[] fileData = mem.ToArray();
+            byte[] fileData = File.ReadAllBytes(path);
 
             Texture2D tex2D = new Texture2D(2, 2);
             if (tex2D.LoadImage(fileData)) return tex2D;
@@ -124,14 +119,6 @@ namespace OtherLoader
 
             byte[] imageBytes = texture.EncodeToPNG();
             File.WriteAllBytes(path, imageBytes);
-        }
-
-        public static void CopyStream(Stream input, Stream output)
-        {
-            byte[] b = new byte[32768];
-            int r;
-            while ((r = input.Read(b, 0, b.Length)) > 0)
-                output.Write(b, 0, r);
         }
 
 
